@@ -1,2 +1,2 @@
 # YASH
-Yet Another Simple Hypervisor
+Yet Another Simple [VT-x] Hypervisor
