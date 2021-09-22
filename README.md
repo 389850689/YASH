@@ -7,9 +7,10 @@ rustc 1.57.0-nightly (aa8f2d432 2021-09-18)<br></sub>
 
 ### Build Instructions
 ```sh
+$ cargo install --force cargo-make
 $ git clone https://github.com/389850689/YASH/
 $ cd YASH
-$ cargo build
+$ cargo make sign
 ```
 ***
 ### Running Tests
