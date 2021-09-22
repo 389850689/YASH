@@ -10,14 +10,14 @@ crate-type = ["cdylib"]
 
 [profile.dev]
 panic = "abort"
+
 [profile.release]
 panic = "abort"
 
 [dependencies]
-kernel-print = "0.1.0"
-kernel-alloc = "0.1.0"
-obfstr = "0.3.0"
 
+
+# fork of winapi-rs that provides some kernel API bindings
 [dependencies.winapi]
 git = "https://github.com/Trantect/winapi-rs.git"
 branch = "feature/km"
