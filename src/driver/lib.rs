@@ -13,13 +13,11 @@ use core::panic::PanicInfo;
 #[no_mangle]
 pub extern "system" fn driver_entry() -> u32 {
 
-    let x = ["wow", "very", "nice"];
-    dbg_print!("{:#?}", x);
 
     0 /* STATUS_SUCCESS */
 }
 
+pub unsafe extern "C" fn driver_unload() { }
+
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
-    loop {}
-}
+fn panic(_info: &PanicInfo) -> ! { loop {} }

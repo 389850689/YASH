@@ -29,6 +29,7 @@ impl<'a> Wrapper<'a> {
 impl fmt::Write for Wrapper<'_>
 {
     fn write_str(&mut self, s: &str) -> Result<(), fmt::Error> {
+        // TODO: fix bug that makes it so that format (newlines) actually work
         // TODO: fix bug that causes undefined behavior when copying exactly 0x1000 non-zero values to the buffer
         self.buf[..s.len()].copy_from_slice(s.as_bytes());
         Ok(())
