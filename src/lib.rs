@@ -10,6 +10,7 @@ mod log;
 
 use core::panic::PanicInfo;
 
+/// Program Entry Point.
 #[no_mangle]
 pub extern "system" fn driver_entry() -> u32 {
 
@@ -17,6 +18,7 @@ pub extern "system" fn driver_entry() -> u32 {
     0 /* STATUS_SUCCESS */
 }
 
+/// Called when requested to unload the driver.
 pub unsafe extern "C" fn driver_unload() { }
 
 #[panic_handler]
