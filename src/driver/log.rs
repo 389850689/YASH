@@ -29,8 +29,8 @@ impl<'a> Wrapper<'a> {
 impl fmt::Write for Wrapper<'_>
 {
     fn write_str(&mut self, s: &str) -> Result<(), fmt::Error> {
-        let chars = &s.as_bytes()[..s.len() - 1];
-        self.buf.copy_from_slice(chars);
+        // TODO: fix bug that causes undefined behavior when copying exactly 0x1000 non-zero values to the buffer
+        self.buf[..s.len()].copy_from_slice(s.as_bytes());
         Ok(())
     }
 }
