@@ -13,7 +13,8 @@ use core::panic::PanicInfo;
 #[no_mangle]
 pub extern "system" fn driver_entry() -> u32 {
 
-    dbg_print!("test");
+    let x = ["wow", "very", "nice"];
+    dbg_print!("{:#?}", x);
 
     0 /* STATUS_SUCCESS */
 }
