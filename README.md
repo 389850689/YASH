@@ -16,8 +16,8 @@ $ cargo make sign
 ```
 ***
 ### Running Tests
-etc.
+Yeah, I don't know about this one.
 ***
 ### Load Instructions
-Install OSR Loader
- 
+1) Install OSR Driver Loader.
+2) Profit.
