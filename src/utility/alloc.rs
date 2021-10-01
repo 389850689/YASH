@@ -1,11 +1,10 @@
 use core::convert::TryInto;
 use core::alloc::{GlobalAlloc, Layout};
 
-use lazy_static::lazy_static;
-use crate::include::interop::Allocate::*;
+use crate::include::interop::allocate::*;
 
 #[global_allocator]
-static GLOBAL: AllocatePool = AllocatePool { name: "Test" };
+static GLOBAL: AllocatePool = AllocatePool { name: "Tag1" };
 
 /// Turns a string into a u32.
 /// 
@@ -22,13 +21,16 @@ struct AllocatePool {
 
 unsafe impl GlobalAlloc for AllocatePool {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        let allocation = ExAllocatePool2(POOL_FLAGS::POOL_FLAG_PAGED as u64, 
-            layout.size(), tagify(self.name));
-
-        return if !allocation.is_null() { allocation as _ } else { panic!() } 
+        // IMPORTANT: So it is possible that ExAllocatePool2 will return
+        // NULL and in the future it might be important to handle this
+        // case maybe using alloc_error_handler, logging, or otherwise,
+        // however, as of right now it will panic regardless of if we 
+        // explicitly call panic or not.
+        ExAllocatePool2(POOL_FLAGS::POOL_FLAG_PAGED as u64, layout.size(), 
+            tagify(self.name)) as _
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
-        
+        ExFreePoolWithTag(ptr as _, tagify(self.name))
     }
 } 

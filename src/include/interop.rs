@@ -1,6 +1,6 @@
 // NOTE: add some type aliases here later, I guess.
 
-pub mod Allocate {
+pub mod allocate {
     #[allow(non_camel_case_types)]
     pub enum POOL_FLAGS {
        POOL_FLAG_REQUIRED_START     =  0x0000000000000001,
@@ -24,5 +24,6 @@ pub mod Allocate {
     // NOTE: using system as the calling convention here is alright, however, it might be more clear to change it to C.
     extern "system" {
         pub fn ExAllocatePool2(Flags: u64, NumberOfBytes: usize, Tag: u32) -> *mut core::ffi::c_void;
+        pub fn ExFreePoolWithTag(P: *mut core::ffi::c_void, Tag: u32);
     }
 }
