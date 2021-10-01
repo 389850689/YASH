@@ -16,15 +16,16 @@ panic = "abort"
 
 [dependencies]
 
-
 # fork of winapi-rs that provides some kernel API bindings
 [dependencies.winapi]
 git = "https://github.com/Trantect/winapi-rs.git"
 branch = "feature/km"
-features = [
-    "wdm",
-    "ntstatus",
-]
+features = ["wdm", "ntstatus"]
+
+# it's like normal lazy static except you can use it without the standard library
+[dependencies.lazy_static]
+version = "1.4"
+features = ["spin_no_std"]
 
 [build-dependencies]
 winreg = "0.9.0"
