@@ -5,37 +5,29 @@ use lazy_static::lazy_static;
 use crate::include::interop::Allocate::*;
 
 #[global_allocator]
-static GLOBAL: AllocatePool = AllocatePool { tag: None, tag_created: false };
+static GLOBAL: AllocatePool = AllocatePool { name: "Test" };
 
-struct AllocatePool {
-    tag: Option<u32>,
-    tag_created: bool
+/// Turns a string into a u32.
+/// 
+/// Uses u32 function `from_le_bytes` to turn a 4 byte array of u8 values
+/// into a single u32 value; to accomplish this we turn the string into a
+/// slice of bytes and try_into to convert it according to the argument type.
+fn tagify(name: &'static str) -> u32 {
+    u32::from_le_bytes(name.as_bytes().try_into().unwrap())
 }
 
-impl AllocatePool {
-    fn create_tag(&mut self, tag: &'static str) {
-            /// Turns string into u32.
-            /// 
-            /// Uses u32 function `from_le_bytes` to turn a 4 byte array of u8 values
-            /// into a single u32 value; to accomplish this we turn the string into a
-            /// slice of bytes and try_into to convert it according to the argument type.
-            self.tag = Some(u32::from_le_bytes(tag.as_bytes().try_into().unwrap()));
-            self.tag_created = true;
-        }
-    }
+struct AllocatePool {
+    name: &'static str,
 }
 
 unsafe impl GlobalAlloc for AllocatePool {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        // NOTE: this is very questionable, and is subject to change.
-
-
         let allocation = ExAllocatePool2(POOL_FLAGS::POOL_FLAG_PAGED as u64, 
-            layout.size(), self.tag);
+            layout.size(), tagify(self.name));
         
         if allocation.is_null() { panic!() }
         
-    
+        0 as _ 
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
