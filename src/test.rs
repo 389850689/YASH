@@ -6,8 +6,9 @@
 #[no_mangle]
 pub static _fltused: i32 = 0;
 
-pub mod utility;
-pub mod include;
+use core::panic::PanicInfo;
+
+use crate::utility::alloc;
 
 /// Program Entry Point.
 #[no_mangle]
@@ -19,3 +20,6 @@ pub extern "system" fn driver_entry() -> u32 {
 
 /// Called when requested to unload the driver.
 pub unsafe extern "C" fn driver_unload() { }
+
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! { loop {} }
