@@ -24,13 +24,11 @@ unsafe impl GlobalAlloc for AllocatePool {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let allocation = ExAllocatePool2(POOL_FLAGS::POOL_FLAG_PAGED as u64, 
             layout.size(), tagify(self.name));
-        
-        if allocation.is_null() { panic!() }
-        
-        0 as _ 
+
+        return if !allocation.is_null() { allocation as _ } else { panic!() } 
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
         
     }
-}
+} 
